@@ -6,6 +6,7 @@ from xgboost import XGBRegressor
 from model_utils import evaluate_model, roi_to_score
 
 import pandas as pd
+import pickle
 
 def train_xgboost(df: pd.DataFrame):
     other_targets = ['impressions', 'clicks', 'ctr', 'conversions', 'conversion_rate'] # I'll work only with ROI as my target for now
@@ -57,5 +58,8 @@ if __name__ == "__main__":
     print("\nRandom Forest Model Evaluation Metrics:")
     for metric, value in rf_metrics.items():
         print(f"{metric}: {value:.4f}")
+
+    pickle.dump(xgb_model, open('./models/trained_models/xgb_model.pkl', 'wb'))
+    pickle.dump(rf_model, open('./models/trained_models/rf_model.pkl', 'wb'))
 
     ## Don't know how to use ROI Score 1-100 and the confidence intervals yet
