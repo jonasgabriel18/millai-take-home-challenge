@@ -44,6 +44,20 @@ class AdSample(BaseModel):
 
 @app.post("/generate-recommendations")
 def generate(ad: AdSample):
+    """
+    Receives an ad sample, processes it, and generates content optimization suggestions
+    to improve predicted ROI using a trained machine learning model.
+    
+    Parameters:
+    -----------
+    ad : AdSample
+        The input ad attributes provided in the request body.
+
+    Returns:
+    --------
+    JSON containing a list of suggested modifications and the original predicted ROI.
+    """
+
     try:
         ad_dict = ad.model_dump()
         ad_df = pd.DataFrame([ad_dict])
@@ -80,6 +94,14 @@ def generate(ad: AdSample):
     
 @app.get("/generate-random-sample")
 def generate_random_sample_api():
+    """
+    Generates a random ad sample from the dataset for testing or demo purposes.
+
+    Returns:
+    --------
+    JSON object containing one randomly generated ad input.
+    """
+    
     try:
         sample = generate_random_sample(df, label_encoders)
         return sample.to_dict(orient="records")[0]

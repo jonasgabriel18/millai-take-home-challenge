@@ -9,6 +9,26 @@ import pandas as pd
 import pickle
 
 def train_xgboost(df: pd.DataFrame):
+    """
+    Trains an XGBoost regression model using 'roi' as the target variable.
+
+    Parameters:
+    -----------
+    df : pd.DataFrame
+        The input DataFrame containing features and target columns.
+
+    Returns:
+    --------
+    xgb_model : XGBRegressor
+        The trained XGBoost model.
+    scaler : StandardScaler
+        The fitted StandardScaler used to scale the feature set.
+    X_test_scaled : ndarray
+        The scaled test set features.
+    y_test : Series
+        The actual ROI values for the test set.
+    """
+
     other_targets = ['impressions', 'clicks', 'ctr', 'conversions', 'conversion_rate'] # I'll work only with ROI as my target for now
     df = df.drop(columns=other_targets)
 
@@ -26,6 +46,26 @@ def train_xgboost(df: pd.DataFrame):
     return xgb_model, scaler, X_test_scaled, y_test
 
 def train_random_forest(df: pd.DataFrame):
+    """
+    Trains a Random Forest regression model using 'roi' as the target variable.
+
+    Parameters:
+    -----------
+    df : pd.DataFrame
+        The input DataFrame containing features and target columns.
+
+    Returns:
+    --------
+    rf : RandomForestRegressor
+        The trained Random Forest model.
+    scaler : StandardScaler
+        The fitted StandardScaler used to scale the feature set.
+    X_test_scaled : ndarray
+        The scaled test set features.
+    y_test : Series
+        The actual ROI values for the test set.
+    """
+    
     other_targets = ['impressions', 'clicks', 'ctr', 'conversions', 'conversion_rate'] # I'll work only with ROI as my target for now
     df = df.drop(columns=other_targets)
 
