@@ -77,6 +77,22 @@ def generate(ad: AdSample):
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+@app.get("/generate-random-sample")
+def generate_random_sample_api():
+    try:
+        def generate_random_sample(df: pd.DataFrame) -> pd.DataFrame:
+            indices = np.random.choice(df.index, size=(1, df.shape[1]), replace=True)
+            ad_sample = pd.DataFrame(data=df.to_numpy()[indices, np.arange(len(df.columns))], 
+                                     columns=df.columns)
+            return ad_sample
+
+        sample = generate_random_sample(df)
+        return sample.to_dict(orient="records")[0]
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 if __name__ == "__main__":
     import uvicorn
