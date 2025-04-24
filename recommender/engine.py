@@ -91,4 +91,4 @@ def generate_recommendations(model, label_encoders: dict, ad_sample: pd.DataFram
             if best_change:
                 suggestions.append(best_change)
     
-    return suggestions
+    return suggestions, base_roi

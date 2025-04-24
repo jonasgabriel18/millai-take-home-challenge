@@ -59,7 +59,7 @@ def generate(ad: AdSample):
 
         ad_df['roi'] = 0
 
-        suggestions = generate_recommendations(model, label_encoders, ad_df, df)
+        suggestions, base_roi = generate_recommendations(model, label_encoders, ad_df, df)
         cleaned_suggestions = []
 
         for s in suggestions:
@@ -73,7 +73,7 @@ def generate(ad: AdSample):
                 for k, v in s.items()
             })
 
-        return cleaned_suggestions
+        return {"suggestions": cleaned_suggestions, "original_roi": float(base_roi)}
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -81,13 +81,7 @@ def generate(ad: AdSample):
 @app.get("/generate-random-sample")
 def generate_random_sample_api():
     try:
-        def generate_random_sample(df: pd.DataFrame) -> pd.DataFrame:
-            indices = np.random.choice(df.index, size=(1, df.shape[1]), replace=True)
-            ad_sample = pd.DataFrame(data=df.to_numpy()[indices, np.arange(len(df.columns))], 
-                                     columns=df.columns)
-            return ad_sample
-
-        sample = generate_random_sample(df)
+        sample = generate_random_sample(df, label_encoders)
         return sample.to_dict(orient="records")[0]
 
     except Exception as e:

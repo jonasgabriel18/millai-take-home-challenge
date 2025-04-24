@@ -19,7 +19,7 @@ def generate_shap_explainer_and_scaler(model, df: pd.DataFrame):
     
     return scaler, explainer
 
-def generate_random_sample(df: pd.DataFrame) -> pd.DataFrame:
+def generate_random_sample(df: pd.DataFrame, label_encoders) -> pd.DataFrame:
     """
     Generate a random sample of the DataFrame
     """
@@ -27,6 +27,12 @@ def generate_random_sample(df: pd.DataFrame) -> pd.DataFrame:
     indices = np.random.choice(df.index, size=(1, df.shape[1]), replace=True)
     ad_sample = pd.DataFrame(data=df.to_numpy()[indices, np.arange(len(df.columns))], 
                         columns=df.columns)
+    
+    for col, encoder in label_encoders.items():
+        encoded_col = col + "_encoded"
+        if encoded_col in ad_sample:
+            ad_sample[col] = encoder.inverse_transform([int(ad_sample[encoded_col].iloc[0])])[0]
+            del ad_sample[encoded_col]
     
     return ad_sample
 
