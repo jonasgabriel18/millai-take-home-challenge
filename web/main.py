@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-platform_possible = ["Meta", "LinkedIn", "TikTok", "Youtube"]
+platform_possible = ["Meta", "LinkedIn", "TikTok", "YouTube"]
 ad_type_possible = ["Video", "Image", "Carousel", "Story"]
 industry_possible = ["Retail", "Tech", "Finance", "B2B Technology", "Entertainment", "E-commerce", "Beauty", "Gaming",
                       "Professional Services", "Cosmetics", "Electronics", "Health", "SaaS", "Education", "Home Goods",
